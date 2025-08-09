@@ -168,6 +168,16 @@ public class Model {
         Tile currTile = board.tile(x, y);
         int myValue = currTile.value();
         int targetY = y;
+        int size= board.size();
+        for (int i=x;i<size;i++){
+            for (int j= size-1;j>=targetY;j--){
+                if(tile(x,j)==null){
+                    board.move(x,j,currTile);
+                    return;
+                }
+            }
+        }
+
 
         // TODO: Tasks 5, 6, and 10. Fill in this function.
     }
