@@ -3,6 +3,7 @@ package game2048logic;
 import game2048rendering.Board;
 import game2048rendering.Side;
 import game2048rendering.Tile;
+import net.sf.saxon.expr.Component;
 
 import java.util.Formatter;
 
@@ -85,6 +86,14 @@ public class Model {
      * */
     public boolean emptySpaceExists() {
         // TODO: Task 2. Fill in this function.
+        int size=board.size();
+        for (int i=0;i<size;i++){
+            for (int j=0;j<size;j++){
+                if(tile(i,j)==null){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -95,6 +104,19 @@ public class Model {
      */
     public boolean maxTileExists() {
         // TODO: Task 3. Fill in this function.
+        int size=board.size();
+        for (int i=0;i<size;i++){
+            for (int j=0;j<size;j++){
+                if (tile(i,j)==null){
+                    continue;
+                }
+                else {
+                  if(tile(i,j).value()==MAX_PIECE){
+                    return true;
+                  }
+                }
+            }
+        }
         return false;
     }
 
@@ -106,6 +128,25 @@ public class Model {
      */
     public boolean atLeastOneMoveExists() {
         // TODO: Fill in this function.
+        int size=board.size();
+        for (int i=0;i<size;i++){
+            for (int j=0;j<size;j++){
+                if (tile(i,j)==null){
+                    return true;
+                }
+                if(j+1<size){
+                    if (tile(i,j)==tile(i,j+1)){
+                        return true;
+                    }
+                }
+                if (i+1<size){
+                    if (tile(i,j)==tile(i+1,j)){
+                        return true;
+                    }
+                }
+            }
+        }
+
         return false;
     }
 
