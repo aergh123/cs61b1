@@ -14,9 +14,13 @@ public class TestGuitarString  {
 
     @Test
     public void testPluckTheAString() {
+
         double CONCERT_A = 440.0;
+       double CONCERT_C = CONCERT_A * Math.pow(2, 3.0 / 12.0);
         GuitarString aString = new GuitarString(CONCERT_A);
+        GuitarString cString = new GuitarString(CONCERT_C);
         aString.pluck();
+        cString.pluck();
         for (int i = 0; i < 50000; i += 1) {
             StdAudio.play(aString.sample());
             aString.tic();
@@ -41,11 +45,12 @@ public class TestGuitarString  {
 
     @Test
     public void testTic() {
-        GuitarString s = new GuitarString(100);
+        GuitarString<Integer> s = new GuitarString<>(100);
         assertThat(s.sample()).isEqualTo(0.0);
         assertThat(s.sample()).isEqualTo(0.0);
         assertThat(s.sample()).isEqualTo(0.0);
         s.pluck();
+
 
         double sample1 = s.sample();
         assertWithMessage("After plucking, your samples should not be 0").that(sample1).isNotEqualTo(0);
@@ -62,9 +67,11 @@ public class TestGuitarString  {
         GuitarString s = new GuitarString(11025);
         s.pluck();
 
+
         // Record the front four values, ticcing as we go.
         double s1 = s.sample();
         s.tic();
+        s.length();
         double s2 = s.sample();
         s.tic();
         double s3 = s.sample();

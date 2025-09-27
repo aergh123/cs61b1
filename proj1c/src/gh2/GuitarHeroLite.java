@@ -28,31 +28,39 @@ public class GuitarHeroLite {
             /* check if the user has typed a key; if so, process it */
             if (StdDraw.hasNextKeyTyped()) {
                 char key = StdDraw.nextKeyTyped();
-                if (key == 'a') {
+                if (key == 'A') {
                     StdDraw.clear();
                     StdDraw.text(WIDTH / 2, HEIGHT / 2, "A");
-
                     StdDraw.show();
                     stringA.pluck();
+                    for (int i = 0; i < 50000; i += 1) {
+                        StdAudio.play(stringA.sample());
+                        stringA.tic();
+                    }
 
-                } else if (key == 'c') {
+                } else if (key == 'C') {
                     StdDraw.clear();
                     StdDraw.text(WIDTH / 2, HEIGHT / 2, "C");
                     StdDraw.show();
-
                     stringC.pluck();
+                    for (int i = 0; i < 50000; i += 1) {
+                        StdAudio.play(stringC.sample());
+                        stringC.tic();
+                    }
+
+
                 }
             }
 
-            /* compute the superposition of samples */
-            double sample = stringA.sample() + stringC.sample();
-
-            /* play the sample on standard audio */
-            StdAudio.play(sample);
-
-            /* advance the simulation of each guitar string by one step */
-            stringA.tic();
-            stringC.tic();
+//            /* compute the superposition of samples */
+//            double sample = stringA.sample() + stringC.sample();
+//
+//            /* play the sample on standard audio */
+//            StdAudio.play(sample);
+//
+//            /* advance the simulation of each guitar string by one step */
+//            stringA.tic();
+//            stringC.tic();
 
         }
     }

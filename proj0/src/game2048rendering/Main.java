@@ -26,7 +26,10 @@ public class Main {
             {4, 64, 8, 256},
     }, 0);
 
+
+
     public static void main(String[] args) {
+
         Model model = USE_CUSTOM_START ? CUSTOM_START : new Model(BOARD_SIZE);
 
         GUI gui = new GUI("2048 61B", model);
@@ -42,6 +45,7 @@ public class Main {
             System.err.printf("Internal error: %s%n", excp.getMessage());
             System.exit(1);
         }
+
 
         System.exit(0);
     }

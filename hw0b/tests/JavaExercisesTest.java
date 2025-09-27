@@ -9,7 +9,7 @@ public class JavaExercisesTest {
 
     @Test
     @Order(0)
-    @DisplayName("Test makeDice correctness")
+    @DisplayName("Test makeDice correctness1")
     public void testMakeDice() {
         int[] dice = JavaExercises.makeDice();
         assertThat(dice).isNotNull();

@@ -1,10 +1,12 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static com.google.common.truth.Truth.assertThat;
 
 /** Tests by Brendan Hu, Spring 2015, revised for 2016 by Josh Hug and for 2023 by Noah Adhikari */
-public class TestBSTMap {
+public class TestBSTMap<k extends Comparable<k>,v> extends BSTMap<k,v> {
 
     @Test
     public void sanityGenericsTest() {
@@ -101,6 +103,11 @@ public class TestBSTMap {
         b.put("c", "swiss");
         b.put("b", "pepper jack");
         b.put("e", "gouda");
+        Iterator<String> iterator=b.iterator();
+        while (iterator.hasNext()){
+           String key= iterator.next();
+           System.out.println(key);
+        }
 
         assertThat(b.size()).isEqualTo(5);
         assertThat(b.get("d")).isEqualTo("parmesan");

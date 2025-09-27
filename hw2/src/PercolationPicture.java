@@ -74,7 +74,7 @@ public class PercolationPicture {
 
     // pick a random file from the inputFiles folder
     private static String pickRandomFile() {
-        File[] ar = new File("inputFiles").listFiles();
+        File[] ar = new File("input").listFiles();
         if (ar == null) {
             throw new RuntimeException("could not find inputFiles");
         }

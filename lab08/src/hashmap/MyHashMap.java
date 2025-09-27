@@ -1,6 +1,6 @@
 package hashmap;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  *  A hash table-backed Map implementation.
@@ -22,16 +22,33 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             key = k;
             value = v;
         }
+        @Override
+        public boolean equals(Object o){
+            if (o instanceof MyHashMap<?,?>.Node other){
+                return key == other.key;
+            }
+            return false;
+        }
     }
 
+
     /* Instance Variables */
-    private Collection<Node>[] buckets;
+    ;
     // You should probably define some more!
-
+    private int  initialCapacity=16;
+    private Collection<Node>[] buckets=  new Collection[initialCapacity];
+    private double  loadFactor=0.75;
+    private int size=0;
     /** Constructors */
-    public MyHashMap() { }
+    public MyHashMap() {
+        initializeBuckets(initialCapacity);
+    }
 
-    public MyHashMap(int initialCapacity) { }
+    public MyHashMap(int initialCapacity) {
+        this.initialCapacity=initialCapacity;
+        buckets = new Collection[initialCapacity];
+        initializeBuckets(initialCapacity);
+    }
 
     /**
      * MyHashMap constructor that creates a backing array of initialCapacity.
@@ -40,7 +57,12 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * @param initialCapacity initial size of backing array
      * @param loadFactor maximum load factor
      */
-    public MyHashMap(int initialCapacity, double loadFactor) { }
+    public MyHashMap(int initialCapacity, double loadFactor) {
+        this.initialCapacity=initialCapacity;
+        this.loadFactor=loadFactor;
+        buckets =  new Collection[initialCapacity];
+        initializeBuckets(initialCapacity);
+    }
 
     /**
      * Returns a data structure to be a hash table bucket
@@ -64,10 +86,127 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     protected Collection<Node> createBucket() {
         // TODO: Fill in this method.
-        return null;
+        return new LinkedList<>();
     }
+    private void initializeBuckets(int capacity) {
+        for (int i = 0; i < capacity; i++) {
+            buckets[i] = new LinkedList<>();
+        }
+    }
+
 
     // TODO: Implement the methods of the Map61B Interface below
     // Your code won't compile until you do so!
+
+
+    @Override
+    public void put(K key, V value) {
+        resize();
+       int hashPosition=Math.floorMod(key.hashCode(),initialCapacity);
+       Node item=new Node(key,value);
+       for (Node node:buckets[hashPosition]){
+           if(key.equals(node.key)){
+               node.value=value;
+              return;
+           }
+       }
+       buckets[hashPosition].add(item);
+       size++;
+    }
+
+    public void resize(){
+        if((double) size/initialCapacity<loadFactor){
+            return;
+        }
+        int newCapacity = initialCapacity * 2;
+        Collection<Node>[] newBuckets = new Collection[newCapacity];
+        for (int i = 0; i < newCapacity; i++) {
+            newBuckets[i] = new LinkedList<>();
+        }
+        for (int i=0;i<initialCapacity;i++){
+            Collection<Node> bucket=buckets[i];
+            if(bucket!=null){
+                for (Node node:bucket){
+                    int hashPosition=Math.floorMod(node.key.hashCode(),newCapacity);
+                    newBuckets[hashPosition].add(node);
+                }
+            }
+        }
+        this.buckets = newBuckets;
+        this.initialCapacity = newCapacity;
+    }
+
+    @Override
+    public V get(K key) {
+        if(!containsKey(key)){
+            return null;
+        }
+        int hashPosition=Math.floorMod(key.hashCode(),initialCapacity);
+        for (Node item:buckets[hashPosition]){
+            if(key.equals(item.key)){
+                return item.value;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean containsKey(K key) {
+        int hashPosition=Math.floorMod(key.hashCode(),initialCapacity);
+        if(buckets[hashPosition]==null){
+            return false;
+        }
+        for (Node i:buckets[hashPosition]){
+                if(key.equals(i.key)){
+                    return true;
+                }
+        }
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public void clear() {
+        buckets = new LinkedList[buckets.length];   // 使用当前数组的长度
+        size = 0;
+    }
+
+    @Override
+    public Set<K> keySet() {
+        Set<K> item;
+        item =new TreeSet<>();
+       for (int i=0;i<initialCapacity;i++){
+            Collection<Node> bucket=buckets[i];
+            if(bucket!=null){
+                for (Node node:bucket) {
+                    item.add(node.key);
+                }
+            }
+        }
+        return item;
+    }
+
+    @Override
+    public V remove(K key) {
+        int hashPosition=Math.floorMod(key.hashCode(),initialCapacity);
+        for (Node node:buckets[hashPosition]){
+            if(key.equals(node.key)){
+                V removeItem=node.value;
+                buckets[hashPosition].remove(node);
+                return removeItem;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Iterator<K> iterator() {
+        return null;
+    }
+
 
 }

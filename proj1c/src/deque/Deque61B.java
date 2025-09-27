@@ -1,12 +1,15 @@
 package deque;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by hug on 2/4/2017. Methods are provided in the suggested order
  * that they should be completed.
  */
-public interface Deque61B<T> {
+public interface Deque61B<T>extends Iterable<T>{
+
+    void init(T x, int arraySize);
 
     /**
      * Add {@code x} to the front of the deque. Assumes {@code x} is never null.
@@ -14,6 +17,8 @@ public interface Deque61B<T> {
      * @param x item to add
      */
     void addFirst(T x);
+
+    int  front();
 
     /**
      * Add {@code x} to the back of the deque. Assumes {@code x} is never null.
@@ -77,4 +82,12 @@ public interface Deque61B<T> {
      * @return element at {@code index} in the deque
      */
     T getRecursive(int index);
+    int length();
+
+    void resize(int newSize);
+
+
+    Iterator<T> iterator();
+
+    boolean contains(T item);
 }

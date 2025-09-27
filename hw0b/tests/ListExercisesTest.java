@@ -16,10 +16,10 @@ public class ListExercisesTest {
     @Order(0)
     @DisplayName("Test sum correctness")
     public void testSum() {
-        List<Integer> lst1 = List.of(1, 2, 3, 4);
+        List<Integer> lst1 = List.of(1,3 , 3, 4);
         List<Integer> lst2 = new ArrayList<>();
 
-        assertThat(ListExercises.sum(lst1)).isEqualTo(10);
+        assertThat(ListExercises.sum(lst1)).isEqualTo(11);
         assertThat(ListExercises.sum(lst2)).isEqualTo(0);
     }
 

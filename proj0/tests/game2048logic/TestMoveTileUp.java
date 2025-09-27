@@ -74,13 +74,13 @@ public class TestMoveTileUp {
     @GradedTest(number = "10.3")
     public void testTwoTilesMergeNoScore() {
         int[][] board = {
-                {2, 0, 0, 0},
+                {4, 0, 0, 0},
                 {0, 0, 0, 0},
                 {0, 0, 0, 0},
-                {2, 0, 0, 0}
+                {0, 0, 0, 0}
         };
         Model before = new Model(board, 0);
-        before.moveTileUpAsFarAsPossible(0, 0);
+        before.moveTileUpAsFarAsPossible(0, 3);
 
         int[][] result = {
                 {4, 0, 0, 0},
@@ -102,11 +102,11 @@ public class TestMoveTileUp {
         int[][] board = {
                 {2, 0, 0, 0},
                 {0, 0, 0, 0},
-                {0, 0, 0, 0},
-                {2, 0, 0, 0}
+                {2, 0, 0, 0},
+                {0, 0, 0, 0}
         };
         Model before = new Model(board, 0);
-        before.moveTileUpAsFarAsPossible(0, 0);
+        before.moveTileUpAsFarAsPossible(0, 1);
 
         int[][] result = {
                 {4, 0, 0, 0},
