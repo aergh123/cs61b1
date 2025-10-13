@@ -25,7 +25,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         @Override
         public boolean equals(Object o){
             if (o instanceof MyHashMap<?,?>.Node other){
-                return key == other.key;
+                return key==other.key;
             }
             return false;
         }
