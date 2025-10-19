@@ -2,6 +2,7 @@ package main;
 
 import browser.NgordnetServer;
 import org.slf4j.LoggerFactory;
+import tu.wordSeries;
 
 public class Main {
     static {
@@ -12,11 +13,12 @@ public class Main {
 
         String synsetFile = "./data/wordnet/synsets.txt";
         String hyponymFile = "./data/wordnet/hyponyms.txt";
+        wordSeries word=new wordSeries(synsetFile,hyponymFile);
 
         hns.startUp();
         hns.register("history", new DummyHistoryHandler());
         hns.register("historytext", new DummyHistoryTextHandler());
-        hns.register("hyponyms", new HyponymsHandler());
+        hns.register("hyponyms", new HyponymsHandler(word));
 
         System.out.println("Finished server startup! Visit http://localhost:4567/ngordnet.html");
     }
