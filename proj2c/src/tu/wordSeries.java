@@ -1,9 +1,10 @@
 package tu;
 
 import edu.princeton.cs.algs4.In;
-import org.checkerframework.checker.units.qual.A;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class wordSeries {
     private In synsetIn;

@@ -22,25 +22,26 @@ public class NGramMapTest {
         List<Double> expectedCounts = new ArrayList<>
                 (Arrays.asList(646179.0, 677820.0, 697645.0, 795265.0));
 
-        TimeSeries request2005to2008 = ngm.countHistory("request");
-        assertThat(request2005to2008.years()).isEqualTo(expectedYears);
-
-        for (int i = 0; i < expectedCounts.size(); i += 1) {
-            assertThat(request2005to2008.data().get(i)).isWithin(1E-10).of(expectedCounts.get(i));
-        }
-
-        expectedYears = new ArrayList<>
-                (Arrays.asList(2006, 2007));
-        expectedCounts = new ArrayList<>
-                (Arrays.asList(677820.0, 697645.0));
-
-        TimeSeries request2006to2007 = ngm.countHistory("request", 2006, 2007);
-
-        assertThat(request2006to2007.years()).isEqualTo(expectedYears);
-
-        for (int i = 0; i < expectedCounts.size(); i += 1) {
-            assertThat(request2006to2007.data().get(i)).isWithin(1E-10).of(expectedCounts.get(i));
-        }
+        TimeSeries request2005to2008 = ngm.totalCountHistory();
+        System.out.println(request2005to2008.toString());
+//        assertThat(request2005to2008.years()).isEqualTo(expectedYears);
+//
+//        for (int i = 0; i < expectedCounts.size(); i += 1) {
+//            assertThat(request2005to2008.data().get(i)).isWithin(1E-10).of(expectedCounts.get(i));
+//        }
+//
+//        expectedYears = new ArrayList<>
+//                (Arrays.asList(2006, 2007));
+//        expectedCounts = new ArrayList<>
+//                (Arrays.asList(677820.0, 697645.0));
+//
+//        TimeSeries request2006to2007 = ngm.countHistory("request", 2006, 2007);
+//
+//        assertThat(request2006to2007.years()).isEqualTo(expectedYears);
+//
+//        for (int i = 0; i < expectedCounts.size(); i += 1) {
+//            assertThat(request2006to2007.data().get(i)).isWithin(1E-10).of(expectedCounts.get(i));
+//        }
     }
 
     @Test

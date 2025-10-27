@@ -107,10 +107,9 @@ public class NGramMap {
      */
     public TimeSeries countHistory(String word) {
         // TODO: Fill in this method.
-        TimeSeries resultSeries=new TimeSeries();
 
         if(wordsData.containsKey(word)){
-            return  new TimeSeries(wordsData.get(word));
+            return new TimeSeries(wordsData.get(word));
         }
         return new TimeSeries();
     }
@@ -120,7 +119,7 @@ public class NGramMap {
      */
     public TimeSeries totalCountHistory() {
         // TODO: Fill in this method.
-        TimeSeries result=new TimeSeries();
+
         return new TimeSeries(countsData);
     }
 

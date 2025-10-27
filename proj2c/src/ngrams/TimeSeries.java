@@ -25,7 +25,6 @@ public class TimeSeries extends TreeMap<Integer, Double>  {
         super();
     }
     public TimeSeries(TimeSeries ts){
-        super();
         this.putAll(ts);
     }
 

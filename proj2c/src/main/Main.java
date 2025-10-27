@@ -1,6 +1,8 @@
 package main;
 
 import browser.NgordnetServer;
+import father.ansSeries;
+import ngrams.NGramMap;
 import org.slf4j.LoggerFactory;
 
 public class Main {
@@ -17,10 +19,16 @@ public class Main {
         NGramMap ngm = new NGramMap(wordFile, countFile);
 
         */
+        String wordFile = "./data/ngrams/top_14377_words.csv";
+        String countFile = "./data/ngrams/total_counts.csv";
+        String synsetFile = "./data/wordnet/synsets.txt";
+        String hyponymFile = "./data/wordnet/hyponyms.txt";
+        ansSeries ans=new ansSeries(wordFile,countFile,synsetFile,hyponymFile);
 
         hns.startUp();
         hns.register("history", new DummyHistoryHandler());
         hns.register("historytext", new DummyHistoryTextHandler());
+        hns.register("hyponyms", new HyponymsHandler(ans));
 
         System.out.println("Finished server startup! Visit http://localhost:4567/ngordnet.html");
     }
