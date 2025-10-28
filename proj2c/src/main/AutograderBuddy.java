@@ -1,6 +1,7 @@
 package main;
 
 import browser.NgordnetQueryHandler;
+import father.ansSeries;
 
 
 public class AutograderBuddy {
@@ -8,7 +9,8 @@ public class AutograderBuddy {
     public static NgordnetQueryHandler getHyponymsHandler(
             String wordFile, String countFile,
             String synsetFile, String hyponymFile) {
-
-        throw new RuntimeException("Please fill out AutograderBuddy.java!");
+        ansSeries ans =new ansSeries(wordFile,countFile,synsetFile,hyponymFile);
+        return new  HyponymsHandler(ans);
+//        throw new RuntimeException("Please fill out AutograderBuddy.java!");
     }
 }

@@ -2,6 +2,7 @@ package tu;
 
 import edu.princeton.cs.algs4.In;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -42,6 +43,7 @@ public class wordSeries {
             for (int i=1;i<wordsNeighbourPart.length;i++){
                 int neighbourKey=Integer.parseInt(wordsNeighbourPart[i]);
                 wordGraph.addEdges(wordKey,neighbourKey);
+               wordGraph.setFather(neighbourKey,wordKey);
             }
         }
     };
@@ -98,6 +100,74 @@ public class wordSeries {
       return commonValues;
     }
 
+    public Set<Integer> getAllFather(String word){
+
+        Set<Integer>  father=new TreeSet<>();
+        for (int wordKey:wordGraph.getKey(word)){
+            father=fatherHelper(father,wordKey);
+            father.add(wordKey);
+        }
+        return father;
+    }
+
+    private Set<Integer> fatherHelper(Set<Integer> father,int key){
+        if( wordGraph.getFather(key)!=null){
+           int fatherKey= wordGraph.getFather(key);
+           father.add(fatherKey);
+           father=fatherHelper(father,fatherKey);
+        }
+        return father;
+    }
+    public Set<Integer> getFatherCommon(List<String> wordList){
+        if (wordList == null || wordList.isEmpty()) {
+            return null;
+        }
+        // 验证所有节点都存在
+        for (String word:wordList){
+            for (int wordKey: wordGraph.getKey(word)) {
+                if (!wordGraph.containsKey(wordKey)) {
+                    return null;
+                }
+            }
+        }
+        Set<Integer> commonFather = getAllFather(wordList.getFirst());
+        for (int i=1;i<wordList.size();i++){
+            Set<Integer> descendants = getAllFather(wordList.get(i));
+            commonFather.retainAll(descendants);
+            // 如果交集已经为空，提前结束
+            if (commonFather.isEmpty()) {
+                break;
+            }
+        }
+        return commonFather;
+    }
+
+    public Set<String> fatherToString(List<String> wordList){
+        Set<String> father=new TreeSet<>();
+      if(wordList.size()==1){
+        for (int i:getAllFather(wordList.getFirst())){
+            father.addAll(wordGraph.getValue(i));
+        }
+          return father;
+      }else {
+       for (int i:getFatherCommon(wordList)){
+            father.addAll(wordGraph.getValue(i));
+        }
+        return father;
+      }
+    }
+    public Set<String> fatherKeepKNumber(List<String> wordList ,int k){
+        Set<String>  result=new TreeSet<>();
+            for (String value:fatherToString(wordList)){
+                result.add(value);
+                if(result.size()>=k){
+                    return result;
+                }
+            }
+        return result;
+    }
+
+
     public String singleToString(String word){
         String finl="";
         finl+=resultValue(word).toString();
@@ -109,16 +179,16 @@ public class wordSeries {
         return finl;
     }
 
-//    public static void main(String[] args) {
-//        String synsetFile = "./data/wordnet/synsets16.txt";
-//        String hyponymFile = "./data/wordnet/hyponyms16.txt";
-//        wordSeries word=new wordSeries(synsetFile,hyponymFile);
-//        List<String> value=new ArrayList<>();
-//        value.add("change");
-//        value.add("occurrence");
-//        System.out.println(word.singleToString("change"));
-//        System.out.println(word.singleToString("occurrence"));
+    public static void main(String[] args) {
+        String synsetFile = "./data/wordnet/synsets16.txt";
+        String hyponymFile = "./data/wordnet/hyponyms16.txt";
+        wordSeries word=new wordSeries(synsetFile,hyponymFile);
+        List<String> value=new ArrayList<>();
+        value.add("change");
+        value.add("coke");
+        System.out.println(word.fatherKeepKNumber(value,6).toString());
+//     System.out.println(word.singleToString("occurrence"));
 //
-////        System.out.println(  word.muitiToString(word.getCommon(value)));
-//    }
+//      System.out.println(  word.muitiToString(word.getCommon(value)));
+   }
 }

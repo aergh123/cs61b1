@@ -11,9 +11,9 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         this.ans=ans;
     }
     @Override
+
     public String handle(NgordnetQuery q) {
         return ans.specificCase(q.words(), q.startYear(), q.endYear(), q.k()).keySet().toString();
-
     }
 
 

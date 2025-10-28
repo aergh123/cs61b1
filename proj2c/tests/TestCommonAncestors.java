@@ -25,7 +25,7 @@ public class TestCommonAncestors {
                 WORDS_FILE, TOTAL_COUNTS_FILE, SMALL_SYNSET_FILE, SMALL_HYPONYM_FILE);
         List<String> words = List.of("adjustment");
 
-        NgordnetQuery nq = new NgordnetQuery(words, 2000, 2020, 0, NgordnetQueryType.ANCESTORS);
+        NgordnetQuery nq = new NgordnetQuery(words, 2000, 2020, 8, NgordnetQueryType.ANCESTORS);
         String actual = studentHandler.handle(nq);
         String expected = "[adjustment, alteration, event, happening, modification, natural_event, occurrence, occurrent]";
         assertThat(actual).isEqualTo(expected);

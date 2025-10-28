@@ -1,5 +1,6 @@
 package tu;
 
+import java.security.Key;
 import java.util.*;
 
 public class directedGraph<K,V>{
@@ -7,6 +8,7 @@ public class directedGraph<K,V>{
     public class Node<k, v>{
         public List<v> value=new ArrayList<>();
         public Set<k> neighbour=new HashSet<>();
+        public k father;
         Node(v v){
             this.value.add(v);
         }
@@ -19,6 +21,12 @@ public class directedGraph<K,V>{
             if(!value.contains(v)){
               value.add(v);
             }
+        }
+        public void addFather(k key){
+            father=key;
+        }
+        public k getListFather(){
+            return father;
         }
         public List<v> getListValue(){
             return value;
@@ -34,20 +42,7 @@ public class directedGraph<K,V>{
             neighbour.add(key);
         }
 
-        public String printValue(){
-            String result="";
-            for (v i:value){
-                result+=i+" ";
-            }
-            return result;
-        }
-        public String printNeighbour(){
-            String result="";
-            for (k i:neighbour){
-                result+=i+" ";
-            }
-            return result;
-        }
+
     }
 
     private Map<K,Node<K,V>>Vertice;
@@ -97,19 +92,22 @@ public class directedGraph<K,V>{
        return Vertice.get(key).getListValue();
     }
     public Set<K> getNeighbor(K key){
-        Vertice.get(key);
         return Vertice.get(key).getListNeighbour();
     }
     public boolean isEmptyNeighbour(K key){
         return Vertice.get(key).isEmpty();
     }
     public boolean containsKey(K key){return Vertice.containsKey(key);}
+    public void  setFather(K key,K fatherKey){
+        Vertice.get(key).addFather(fatherKey);
+    }
+    public K getFather(K key){
+        return Vertice.get(key).getListFather();
+    }
     public boolean containsNeighbour(K from,K to){
         return Vertice.get(from).getListNeighbour().contains(to);
     }
-    public void toSting(){
-        System.out.println("Key:"+Vertice.keySet()+"\nvalue "+Vertice.get(1).printNeighbour());
-    }
+
 
 
 
