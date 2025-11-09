@@ -1,6 +1,8 @@
 package gameoflife;
 
 import edu.princeton.cs.algs4.StdDraw;
+import net.sf.saxon.trans.SymbolicName;
+import picocli.CommandLine;
 import tileengine.TERenderer;
 import tileengine.TETile;
 import tileengine.Tileset;
@@ -240,12 +242,61 @@ public class GameOfLife {
         // TODO: Implement this method so that the described transitions occur.
         // TODO: The current state is represented by TETiles[][] tiles and the next
         // TODO: state/evolution should be returned in TETile[][] nextGen.
+        /*
+          任何存活的单元格，如果存活的邻居少于两个，就会死亡，如同因资源不足而死亡。
+          任何存活的单元格，如果有两个或三个邻居，就会存活到下一代。
+          任何存活的单元格，如果存活的邻居多于三个，就会死亡，如同因资源过度而死亡。
+          任何死亡的单元格，如果恰好有三个存活的邻居，就会复活，如同繁殖一般。**/
+        int height = tiles[0].length;
+        int width = tiles.length;
 
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
 
-
+                int  num=neighborLiveNumber(tiles,x,y);
+                  if(tiles[x][y]==Tileset.NOTHING){
+                      if(num==3){
+                          nextGen[x][y]=Tileset.CELL;
+                          continue;
+                      }
+                  }
+                  else {
+                      if(num>3||num<2){
+                          continue;
+                      }else {
+                          nextGen[x][y]=tiles[x][y];
+                      }
+                  }
+            }
+        }
 
         // TODO: Returns the next evolution in TETile[][] nextGen.
-        return null;
+        return nextGen;
+    }
+
+    //返回当前位置的活的数目
+    public int  neighborLiveNumber(TETile[][] tiles,int x,int y){
+        int[] Xstep={-1,0,1};
+        int[] Ystep={-1,0,1};
+        int result=0;
+        for (int i:Xstep) {
+            for (int j : Ystep) {
+                if(i==0&&j==0){
+                    continue;
+                }
+
+                int currentX = x + i;
+                int currentY = y + j;
+                if (currentX < 0 || currentX >= width || currentY < 0 || currentY >= height) {
+                    continue;
+                } else {
+                    if (tiles[currentX][currentY] == Tileset.CELL) {
+                        result += 1;
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     /**
@@ -269,17 +320,38 @@ public class GameOfLife {
         // TODO: Save the dimensions of the board into the first line of the file.
         // TODO: The width and height should be separated by a space, and end with "\n".
 
-
-
         // TODO: Save the current state of the board into save.txt. You should
         // TODO: use the provided FileUtils functions to help you. Make sure
         // TODO: the orientation is correct! Each line in the board should
         // TODO: end with a new line character.
+        if(!FileUtils.fileExists("src/save.txt")){
+            return;
+        }
+        TETile[][] tiles=returnCurrentState();
+        int height = tiles[0].length;
+        int width = tiles.length;
 
+        String result=width+" "+height+"\n";
+        String[] allLine=new String[height];
+        String oneLine="";
 
-
-
-
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if(tiles[x][y]==Tileset.CELL){
+                    oneLine+="1";
+                }
+                else {
+                   oneLine+="0";
+                }
+            }
+            oneLine+="\n";
+            allLine[y]=oneLine;
+            oneLine="";
+        }
+        for (int i=height-1;i>=0;i--){
+            result+=allLine[i];
+        }
+        FileUtils.writeFile("src/save.txt",result);
     }
 
     /**
@@ -288,24 +360,39 @@ public class GameOfLife {
      */
     public TETile[][] loadBoard(String filename) {
         // TODO: Read in the file.
+        String  allLine=FileUtils.readFile(filename);
 
         // TODO: Split the file based on the new line character.
+        String[] arrayLine=allLine.split("\n");
 
         // TODO: Grab and set the dimensions from the first line.
+        String[] firstLine= arrayLine[0].split(" ");
+        int width=Integer.parseInt(firstLine[0]);
+        int height=Integer.parseInt(firstLine[0]);
 
         // TODO: Create a TETile[][] to load the board from the file into
         // TODO: and any additional variables that you think might help.
-
+        TETile[][]  tiles=new TETile[width][height];
 
         // TODO: Load the state of the board from the given filename. You can
         // TODO: use the provided builder variable to help you and FileUtils
         // TODO: functions. Make sure the orientation is correct!
-
-
-
+        for (int y = height-1; y >=0; y--) {
+            int i=1;
+            String nextLine=arrayLine[i];
+            i++;
+            for (int x = 0; x < width; x++) {
+                if (nextLine.charAt(x)=='0'){
+                    tiles[x][y] = Tileset.NOTHING;
+                }
+                else{
+                    tiles[x][y]=Tileset.CELL;
+                }
+            }
+        }
 
         // TODO: Return the board you loaded. Replace/delete this line.
-        return null;
+        return tiles;
     }
 
     /**
